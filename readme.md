@@ -1,6 +1,7 @@
 # PhotoPrism Helper
 
 [![CodeQL](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml)
+[![Publish Docker image](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml)
 
 PhotoPrism Helper is an unofficial companion tool created for use alongside [PhotoPrism](https://www.github.com/photoprism/photoprism).
 
