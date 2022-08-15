@@ -1,5 +1,7 @@
 # PhotoPrism Helper
 
+[![CodeQL](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml)
+
 PhotoPrism Helper is an unofficial companion tool created for use alongside [PhotoPrism](https://www.github.com/photoprism/photoprism).
 
 ## Feature Overview
@@ -46,7 +48,7 @@ If you're familiar with Node and TypeScript feel free to isolate the build folde
 
 ### Docker
 
-The container can be created using the Dockerfile available or by using the Docker Image at LINKHERE.
+The container can be created using the Dockerfile available or by using the [Docker Image](https://hub.docker.com/repository/docker/aerilym/photoprism-helper/).
 
 ## API Documentation
 
@@ -54,7 +56,7 @@ The container can be created using the Dockerfile available or by using the Dock
 
 All requests must contain an authorization header with a set API key as such:
 
-```JSON
+```
 Authorization: Bearer APIKEY
 ```
 
