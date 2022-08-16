@@ -5,6 +5,7 @@
   "main": "build/api.js",
   "scripts": {
     "build": "tsc",
+    "build:docker": "docker build -t aerilym/photoprism-helper .",
     "start:dev": "nodemon",
     "start:prd": "node build/api.js"
   },

@@ -51,7 +51,13 @@ If you're familiar with Node and TypeScript feel free to isolate the build folde
 
 ### Docker
 
-The container can be created using the Dockerfile available or by using the [Docker Image](https://hub.docker.com/repository/docker/aerilym/photoprism-helper/).
+The container can be created using the Dockerfile available, or by using the container available as a GitHub Package or [DockerHub](https://hub.docker.com/repository/docker/aerilym/photoprism-helper/).
+
+The container can be easily built from the source code by running:
+
+```
+npm run build:docker
+```
 
 ## API Documentation
 
