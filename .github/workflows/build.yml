@@ -34,4 +34,6 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Start application
-        run: yarn start:prd
+        run: |
+          yarn build
+          yarn start:prd
