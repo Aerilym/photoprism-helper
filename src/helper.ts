@@ -25,25 +25,20 @@ export function cleanUrl(url: string): string {
 }
 
 export async function validateAuth(request: Request): Promise<AuthValidation> {
-  try {
-    if (!request.headers) {
-      return new AuthResponse(false, 'Request contained no header.');
-    } else if (!request.headers.authorization) {
-      return new AuthResponse(false, 'Request contained no authorization header.');
-    }
-    const authHeader = request.headers.authorization.split(' ');
-    if (authHeader.length > 2) {
-      return new AuthResponse(false, 'Request authorization header incorrectly formatted.');
-    } else if (authHeader[0] !== 'Bearer') {
-      return new AuthResponse(false, 'Request authorization header incorrectly formatted.');
-    }
-    if (authHeader[1] !== config.apiKey) {
-      return new AuthResponse(false, 'Invalid API Key');
-    }
+  if (!request.headers) {
+    return new AuthResponse(false, 'Request contained no header.');
+  }
+  if (!request.headers.authorization) {
+    return new AuthResponse(false, 'Request contained no authorization header.');
+  }
+  const authHeader = request.headers.authorization.split(' ');
+  if (authHeader.length !== 2 || authHeader[0] !== 'Bearer') {
+    return new AuthResponse(false, 'Request authorization header incorrectly formatted.');
+  }
+  if (authHeader[1] !== config.apiKey) {
+    return new AuthResponse(false, 'Invalid API Key');
+  } else {
     return new AuthResponse(true, 'Authenticated');
-  } catch (error: any) {
-    console.log(error);
-    return new AuthResponse(false, error.toString());
   }
 }
 
@@ -67,7 +62,7 @@ export function parseBool(value: string | number): boolean {
   }
 }
 
-export function filterObject(mainObject: {}, filterObject: {}, allowEmpty: boolean) {
+export function filterObject(mainObject: object, filterObject: object, allowEmpty: boolean) {
   const selectedItems = Object.keys(filterObject);
 
   let filteredObject = Object.keys(mainObject)
