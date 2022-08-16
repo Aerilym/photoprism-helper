@@ -20,13 +20,13 @@ export async function prismLibrary(page: 'import' | 'index'): Promise<APIOutcome
   return outcome;
 }
 
-export async function prismStats(req: Request<any>, res: Response<any>) {
+export async function prismStats(req: Request, res: Response) {
   photoPrism
     .post('session', {
       username: config.user,
       password: config.pass,
     })
-    .then((outcome: AxiosResponse<any>) => {
+    .then((outcome: AxiosResponse) => {
       let filteredBody = outcome.data;
 
       if (req.body) {

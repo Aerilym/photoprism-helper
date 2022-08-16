@@ -43,7 +43,7 @@ class WebPuppeteer {
         timeout: config.importOptions.successTimeout,
       });
       if (infobox) {
-        const value: string = await infobox.evaluate((el: { textContent: any }) => el.textContent);
+        const value: string = await infobox.evaluate((el: { textContent: string }) => el.textContent);
         return new Outcome(200, `PhotoPrism ${value.replace(' close', '')}`);
       } else {
         return new Outcome(200, 'Success message not found in the timeout time.');
