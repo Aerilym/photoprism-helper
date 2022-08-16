@@ -43,9 +43,9 @@ docker build -t aerilym/photoprism-helper .
 
 A list of possible environment variables is available: [.env.template](.env.template)
 
-- `BASEURL` - The URL of your PhotoPrism instance. (default: `http://192.168.1.113:2342/`)
-- `USER` - The PhotoPrism username you want the helper to use for access.
-- `PASS` - The PhotoPrism password associated with the username.
+- `PHOTOPRISM_SITE_URL` - The URL of your PhotoPrism instance. (default: `http://192.168.1.113:2342/`)
+- `PHOTOPRISM_USERNAME` - The PhotoPrism username you want the helper to use for access.
+- `PHOTOPRISM_PASSWORD` - The PhotoPrism password associated with the username.
 - `APIKEY` - The API key you'll use to query the helper API.
 - `ISDOCKER` - Tells the helper instance if it is running in a Docker container. (This is a temporary fix and is planned to be removed)
 - `TIMEZONE` - The Time zone of your instance. (default: `Melbourne/Australia`)

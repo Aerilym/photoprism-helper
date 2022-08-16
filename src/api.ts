@@ -23,10 +23,12 @@ const logger = createLogger({
 });
 
 export const config: EnvConfig = {
-  baseUrl: process.env.BASEURL ? cleanUrl(process.env.BASEURL) : 'http://localhost:2342/',
-  hostPort: process.env.HOSTPORT ? parseInt(process.env.HOSTPORT) : 8002,
-  user: process.env.USER ? process.env.USER : 'admin',
-  pass: process.env.PASS ? process.env.PASS : '',
+  baseUrl: process.env.PHOTOPRISM_SITE_URL
+    ? cleanUrl(process.env.PHOTOPRISM_SITE_URL)
+    : 'http://localhost:2342/',
+  hostPort: process.env.HOSTPORT ? parseInt(process.env.HOSTPORT) : 2343,
+  user: process.env.PHOTOPRISM_USERNAME ? process.env.PHOTOPRISM_USERNAME : 'admin',
+  pass: process.env.PHOTOPRISM_PASSWORD ? process.env.PHOTOPRISM_PASSWORD : '',
   apiKey: process.env.APIKEY ? process.env.APIKEY : 'testkey',
   isDocker: process.env.ISDOCKER ? parseBool(process.env.ISDOCKER) : false,
   timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Melbourne/Australia',
