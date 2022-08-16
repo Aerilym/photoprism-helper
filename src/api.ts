@@ -22,7 +22,7 @@ const logger = createLogger({
   ),
 });
 
-export let config: EnvConfig = {
+export const config: EnvConfig = {
   baseUrl: process.env.BASEURL ? cleanUrl(process.env.BASEURL) : 'http://localhost:2342/',
   hostPort: process.env.HOSTPORT ? parseInt(process.env.HOSTPORT) : 8002,
   user: process.env.USER ? process.env.USER : 'admin',
