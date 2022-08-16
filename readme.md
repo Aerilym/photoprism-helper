@@ -5,7 +5,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/aerilym/photoprism-helper/badge)](https://www.codefactor.io/repository/github/aerilym/photoprism-helper)
 [![Known Vulnerabilities](https://snyk.io/test/github/aerilym/photoprism-helper/badge.svg)](https://snyk.io/test/github/aerilym/photoprism-helper)
 
-PhotoPrism Helper is an unofficial companion tool created for use alongside [PhotoPrism](https://www.github.com/photoprism/photoprism).
+PhotoPrism Helper is an unofficial companion tool created for use alongside [PhotoPrism](https://www.github.com/photoprism/photoprism). This project isn't associated with the PhotoPrism project, it's just a companion tool created to extend the functionality of PhotoPrism.
 
 ## Feature Overview
 
@@ -17,11 +17,7 @@ The current main features are API endpoints for importing and indexing content, 
 
 ## Getting Started
 
-The application is designed to be used in a docker container or hosted on any local machine.
-
-### Building a Local Install
-
-After cloning the repository you can set up, build, and run the project by doing the following:
+The application is designed to be used in a docker container or hosted on any local machine. After cloning the repository you can set up, build, and run the project by doing the following:
 
 Start by installing all the dependencies:
 
@@ -29,7 +25,40 @@ Start by installing all the dependencies:
 npm install
 ```
 
+[Build the project](#building-a-local-install):
+
+```bash
+npm run build
+```
+
+or
+
+[Build the docker image](#docker):
+
+```bash
+docker build -t aerilym/photoprism-helper .
+```
+
+### Environment Variables
+
+A list of possible environment variables is available: [.env.template](.env.template)
+
+- `BASEURL` - The URL of your PhotoPrism instance. (default: `http://192.168.1.113:2342/`)
+- `USER` - The PhotoPrism username you want the helper to use for access.
+- `PASS` - The PhotoPrism password associated with the username.
+- `APIKEY` - The API key you'll use to query the helper API.
+- `ISDOCKER` - Tells the helper instance if it is running in a Docker container. (This is a temporary fix and is planned to be removed)
+- `TIMEZONE` - The Time zone of your instance. (default: `Melbourne/Australia`)
+- `IMPORT_TIMEOUT` - The number of milliseconds the import function should wait for a success message before timing out. (default `300000`)
+- `AUTO_IMPORT` - Enable/Disable the auto-import feature. (default: `false`)
+- `AUTO_IMPORT_CRON` - The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import. (default: `0 0 5 * * * *`)
+- `INDEX_AFTER_AUTO_IMPORT` - Enable/Disable the index after auto-importing feature. (default: `false`)
+
+### Building a Local Install
+
 Create a `.env` file, based on the `.env.template` file and fill it with your options.
+
+At a minimum, the `USER` AND `PASS` environment variables need to be set, but `BASEURL` will be required if your PhotoPrism instance isn't available on `localhost:2342`. [Read more about environment variables](#Environment-Variables).
 
 Run the following command to build the application from the source files:
 
@@ -55,7 +84,7 @@ The container can be created using the Dockerfile available, or by using the con
 
 The container can be easily built from the source code by running:
 
-```
+```bash
 npm run build:docker
 ```
 
@@ -65,11 +94,9 @@ npm run build:docker
 
 All requests must contain an authorization header with a set API key as such:
 
+```json
+  Authorization: "Bearer <APIKEY>"
 ```
-Authorization: Bearer APIKEY
-```
-
-replacing APIKEY with your set API key.
 
 ### Endpoints
 
