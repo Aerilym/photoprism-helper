@@ -31,11 +31,11 @@ export const config: EnvConfig = {
   pass: process.env.PHOTOPRISM_PASSWORD ? process.env.PHOTOPRISM_PASSWORD : '',
   apiKey: process.env.APIKEY ? process.env.APIKEY : 'testkey',
   isDocker: process.env.ISDOCKER ? parseBool(process.env.ISDOCKER) : false,
-  timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Melbourne/Australia',
+  timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Australia/Melbourne',
   importOptions: {
     successTimeout: process.env.IMPORT_TIMEOUT ? parseInt(process.env.IMPORT_TIMEOUT) : 300000,
     autoImport: process.env.AUTO_IMPORT ? parseBool(process.env.AUTO_IMPORT) : false,
-    autoImportCron: process.env.AUTO_IMPORT_CRON ? process.env.AUTO_IMPORT_CRON : '',
+    autoImportCron: process.env.AUTO_IMPORT_CRON ? process.env.AUTO_IMPORT_CRON : '0 0 5 * * * *',
     indexAfterAutoImport: process.env.INDEX_AFTER_AUTO_IMPORT
       ? parseBool(process.env.INDEX_AFTER_AUTO_IMPORT)
       : false,
