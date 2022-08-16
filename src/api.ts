@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import RateLimit from 'express-rate-limit';
 import cron from 'node-cron';
 import bodyParser from 'body-parser';
 import { createLogger, transports, format } from 'winston';
@@ -60,6 +61,14 @@ const api = express();
 api.use(bodyParser.urlencoded({ extended: true }));
 api.use(bodyParser.json());
 api.use(bodyParser.raw());
+
+//  Rate limit requests to the API
+const limiter = RateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 100,
+});
+
+api.use(limiter);
 
 export const photoPrism = new Requester({
   username: config.user,
