@@ -1,5 +1,6 @@
 # PhotoPrism Helper
 
+[![Build](https://github.com/Aerilym/photoprism-helper/actions/workflows/build.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/build.yml)
 [![CodeQL](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml)
 [![Publish Docker image](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/aerilym/photoprism-helper/badge)](https://www.codefactor.io/repository/github/aerilym/photoprism-helper)
