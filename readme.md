@@ -95,10 +95,8 @@ npm run build:docker
 
 All requests must contain an authorization header with a set API key as such:
 
-```json
-{
-  Authorization: "Bearer <APIKEY>"
-}
+```bash
+Authorization: "Bearer <APIKEY>"
 ```
 
 ### Endpoints
