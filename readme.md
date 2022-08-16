@@ -1,5 +1,6 @@
 # PhotoPrism Helper
 
+[![Build](https://github.com/Aerilym/photoprism-helper/actions/workflows/build.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/build.yml)
 [![CodeQL](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/codeql-analysis.yml)
 [![Publish Docker image](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Aerilym/photoprism-helper/actions/workflows/docker-image.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/aerilym/photoprism-helper/badge)](https://www.codefactor.io/repository/github/aerilym/photoprism-helper)
@@ -80,7 +81,7 @@ If you're familiar with Node and TypeScript feel free to isolate the build folde
 
 ### Docker
 
-The container can be created using the Dockerfile available, or by using the container available as a GitHub Package or [DockerHub](https://hub.docker.com/repository/docker/aerilym/photoprism-helper/).
+The container can be created using the [Dockerfile](Dockerfile) available, or by using the container available as a [GitHub Package](https://github.com/Aerilym?tab=packages&repo_name=photoprism-helper) or [DockerHub](https://hub.docker.com/repository/docker/aerilym/photoprism-helper/).
 
 The container can be easily built from the source code by running:
 
@@ -94,8 +95,8 @@ npm run build:docker
 
 All requests must contain an authorization header with a set API key as such:
 
-```json
-  Authorization: "Bearer <APIKEY>"
+```bash
+Authorization: "Bearer <APIKEY>"
 ```
 
 ### Endpoints
