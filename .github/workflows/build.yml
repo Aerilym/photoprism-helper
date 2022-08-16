@@ -24,6 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: yarn install
 
       # Compiles the typescript
       - name: Typescript compiler
