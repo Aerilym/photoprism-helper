@@ -1,12 +1,12 @@
 import puppeteer from 'puppeteer';
-import { config } from './api';
+import { envConfig, optionsConfig } from './api';
 import { LibraryPage, APIOutcome, Credentials, Outcome } from './types';
 
 class WebPuppeteer {
   constructor() {}
 
   async login(page: puppeteer.Page, path: string, credentials: Credentials) {
-    const navUrl = (await config.baseUrl) + path;
+    const navUrl = (await envConfig.baseUrl) + path;
 
     await page.goto(navUrl, { waitUntil: 'networkidle0' });
     await page.type('input[aria-label="Name"]', credentials.username);
@@ -27,12 +27,12 @@ class WebPuppeteer {
         '--no-sandbox',
       ],
     };
-    if (config.isDocker) {
+    if (optionsConfig.isDocker) {
       browserParams = { ...browserParams, executablePath: '/usr/bin/chromium-browser' };
     }
     const browser = await puppeteer.launch(browserParams);
     const page = await browser.newPage();
-    const credentials = new Credentials(config.user, config.pass);
+    const credentials = new Credentials(envConfig.user, envConfig.pass);
 
     await this.login(page, pageInfo.path, credentials);
 
@@ -40,10 +40,12 @@ class WebPuppeteer {
 
     try {
       const infobox = await page.waitForSelector(pageInfo.selector.successMessage, {
-        timeout: config.importOptions.successTimeout,
+        timeout: optionsConfig.importOptions.successTimeout,
       });
       if (infobox) {
-        const value: string = await infobox.evaluate((el: { textContent: string }) => el.textContent);
+        const value: string = await infobox.evaluate(
+          (el: { textContent: string }) => el.textContent
+        );
         return new Outcome(200, `PhotoPrism ${value.replace(' close', '')}`);
       } else {
         return new Outcome(200, 'Success message not found in the timeout time.');

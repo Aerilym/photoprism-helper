@@ -1,5 +1,4 @@
 import { Request } from 'express';
-import { config } from './api';
 import { AuthResponse, AuthValidation } from './types';
 
 export function isUrl(url: string) {
@@ -21,10 +20,10 @@ export function cleanUrl(url: string): string {
   if (isUrl(url)) {
     return url;
   }
-  return 'http://localhost/';
+  return 'http://localhost:2342/';
 }
 
-export async function validateAuth(request: Request): Promise<AuthValidation> {
+export async function validateAuth(request: Request, apiKey: string): Promise<AuthValidation> {
   if (!request.headers) {
     return new AuthResponse(false, 'Request contained no header.');
   }
@@ -35,7 +34,7 @@ export async function validateAuth(request: Request): Promise<AuthValidation> {
   if (authHeader.length !== 2 || authHeader[0] !== 'Bearer') {
     return new AuthResponse(false, 'Request authorization header incorrectly formatted.');
   }
-  if (authHeader[1] !== config.apiKey) {
+  if (authHeader[1] !== apiKey) {
     return new AuthResponse(false, 'Invalid API Key');
   } else {
     return new AuthResponse(true, 'Authenticated');

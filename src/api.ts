@@ -5,7 +5,7 @@ import cron from 'node-cron';
 import bodyParser from 'body-parser';
 import { createLogger, transports, format } from 'winston';
 import { cleanUrl, validateAuth, parseBool } from './helper';
-import { EnvConfig } from './types';
+import { EnvConfig, OptionsConfig } from './types';
 import { prismLibrary, prismStats } from './features';
 import { Requester } from './requester';
 
@@ -22,7 +22,7 @@ const logger = createLogger({
   ),
 });
 
-export const config: EnvConfig = {
+export const envConfig: EnvConfig = {
   baseUrl: process.env.PHOTOPRISM_SITE_URL
     ? cleanUrl(process.env.PHOTOPRISM_SITE_URL)
     : 'http://localhost:2342/',
@@ -30,6 +30,9 @@ export const config: EnvConfig = {
   user: process.env.PHOTOPRISM_USERNAME ? process.env.PHOTOPRISM_USERNAME : 'admin',
   pass: process.env.PHOTOPRISM_PASSWORD ? process.env.PHOTOPRISM_PASSWORD : '',
   apiKey: process.env.APIKEY ? process.env.APIKEY : 'testkey',
+};
+
+export const optionsConfig: OptionsConfig = {
   isDocker: process.env.ISDOCKER ? parseBool(process.env.ISDOCKER) : false,
   timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Australia/Melbourne',
   importOptions: {
@@ -42,22 +45,25 @@ export const config: EnvConfig = {
   },
 };
 
-if (config.apiKey === 'testkey') {
+if (envConfig.apiKey === 'testkey') {
   logger.warn(`An API key should be generated and set in env var APIKEY`);
 }
 
-if (config.isDocker) {
+if (optionsConfig.isDocker) {
   logger.warn(
-    `Env var ISDOCKER is set to ${config.isDocker}. If the application is not running in a docker container change this to false.`
+    `Env var ISDOCKER is set to ${optionsConfig.isDocker}. If the application is not running in a docker container change this to false.`
   );
 }
 
-if (config.importOptions.autoImport && !cron.validate(config.importOptions.autoImportCron)) {
+if (
+  optionsConfig.importOptions.autoImport &&
+  !cron.validate(optionsConfig.importOptions.autoImportCron)
+) {
   logger.warn('Invalid auto import cron set, disabling auto import.');
-  config.importOptions.autoImport = false;
+  optionsConfig.importOptions.autoImport = false;
 }
 
-logger.info(`Targeting PhotoPrism instance at ${config.baseUrl}`);
+logger.info(`Targeting PhotoPrism instance at ${envConfig.baseUrl}`);
 
 const api = express();
 api.use(bodyParser.urlencoded({ extended: true }));
@@ -73,12 +79,12 @@ const limiter = RateLimit({
 api.use(limiter);
 
 export const photoPrism = new Requester({
-  username: config.user,
-  password: config.pass,
+  username: envConfig.user,
+  password: envConfig.pass,
 }).photoPrism;
 
 api.use(function (req, res, next) {
-  validateAuth(req).then((authOutcome) => {
+  validateAuth(req, envConfig.apiKey).then((authOutcome) => {
     if (!authOutcome.success) {
       return res.status(403).json({ error: authOutcome.message });
     }
@@ -108,24 +114,24 @@ api.get('/stats', (req, res) => {
   return prismStats(req, res);
 });
 
-api.listen(config.hostPort, () => {
-  logger.info(`PhotoPrism Helper API listening on port ${config.hostPort}`);
+api.listen(envConfig.hostPort, () => {
+  logger.info(`PhotoPrism Helper API listening on port ${envConfig.hostPort}`);
 });
 
-if (config.importOptions.autoImport) {
+if (optionsConfig.importOptions.autoImport) {
   cron.schedule(
-    config.importOptions.autoImportCron,
+    optionsConfig.importOptions.autoImportCron,
     async () => {
       logger.info('Running auto import.');
       const importOutcome = await prismLibrary('import');
       logger.info(importOutcome.message);
-      if (config.importOptions.indexAfterAutoImport) {
+      if (optionsConfig.importOptions.indexAfterAutoImport) {
         const indexOutcome = await prismLibrary('index');
         logger.info(indexOutcome.message);
       }
     },
     {
-      timezone: config.timezone,
+      timezone: optionsConfig.timezone,
     }
   );
 }

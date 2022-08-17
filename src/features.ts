@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
 import { APIOutcome, LibraryPage } from './types';
 import { webPuppeteer } from './web';
-import { photoPrism, config } from './api';
+import { photoPrism, envConfig } from './api';
 import { filterObject } from './helper';
 
 export async function prismLibrary(page: 'import' | 'index'): Promise<APIOutcome> {
@@ -23,8 +23,8 @@ export async function prismLibrary(page: 'import' | 'index'): Promise<APIOutcome
 export async function prismStats(req: Request, res: Response) {
   photoPrism
     .post('session', {
-      username: config.user,
-      password: config.pass,
+      username: envConfig.user,
+      password: envConfig.pass,
     })
     .then((outcome: AxiosResponse) => {
       let filteredBody = outcome.data;

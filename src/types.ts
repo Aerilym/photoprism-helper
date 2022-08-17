@@ -34,6 +34,9 @@ export interface EnvConfig {
   user: string;
   pass: string;
   apiKey: string;
+}
+
+export interface OptionsConfig {
   isDocker: boolean;
   timezone: string;
   importOptions: {
@@ -68,4 +71,23 @@ export class AuthResponse implements AuthValidation {
   }
   success: boolean;
   message: string;
+}
+
+export type LoggerDepth = 'none' | 'stats' | 'info' | 'warn' | 'error';
+
+export interface LoggerConfig {
+  file: string;
+  externalLog: {
+    enabled: boolean;
+    depth: LoggerDepth;
+    externalUrl: string;
+    externalKey: string;
+    identity: {
+      anonymised: boolean;
+      identifier: string;
+      version: string;
+      environment: string;
+      config: string;
+    };
+  };
 }
