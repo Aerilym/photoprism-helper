@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { envConfig } from './api';
+
+import { envConfig, optionsConfig } from './config';
 import { LoginCredentials } from './types';
 
 export class Requester {

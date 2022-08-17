@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
-import { envConfig, optionsConfig } from './api';
+
+import { envConfig, optionsConfig } from './config';
 import { LibraryPage, APIOutcome, Credentials, Outcome } from './types';
 
 class WebPuppeteer {

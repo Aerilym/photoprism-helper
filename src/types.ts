@@ -39,6 +39,7 @@ export interface EnvConfig {
 export interface OptionsConfig {
   isDocker: boolean;
   timezone: string;
+  logFile: string;
   importOptions: {
     successTimeout: number;
     autoImport: boolean;
@@ -73,21 +74,35 @@ export class AuthResponse implements AuthValidation {
   message: string;
 }
 
-export type LoggerDepth = 'none' | 'stats' | 'info' | 'warn' | 'error';
+export type LoggerDepth = 'all' | 'error' | 'warn' | 'info' | 'stats' | 'none';
+export type LoggerLevel = 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly';
+
+export interface ParseLoggerDepth {
+  depth: LoggerDepth;
+  invalidDepth?: boolean;
+}
+
+export interface ParseLoggerLevel {
+  level: LoggerLevel;
+  invalidLevel?: boolean;
+}
 
 export interface LoggerConfig {
   file: string;
+  levelConsole: ParseLoggerLevel;
+  levelFile: ParseLoggerLevel;
   externalLog: {
     enabled: boolean;
-    depth: LoggerDepth;
-    externalUrl: string;
-    externalKey: string;
+    depth: ParseLoggerDepth;
+    url: string;
+    key: string;
     identity: {
       anonymised: boolean;
+      sendOptions: boolean;
       identifier: string;
       version: string;
       environment: string;
-      config: string;
+      options: OptionsConfig;
     };
   };
 }

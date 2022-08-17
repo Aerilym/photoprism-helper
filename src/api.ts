@@ -1,49 +1,13 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import cron from 'node-cron';
 import bodyParser from 'body-parser';
-import { createLogger, transports, format } from 'winston';
-import { cleanUrl, validateAuth, parseBool } from './helper';
-import { EnvConfig, OptionsConfig } from './types';
+
+import { envConfig, optionsConfig } from './config';
+import { validateAuth } from './helper';
 import { prismLibrary, prismStats } from './features';
 import { Requester } from './requester';
-
-dotenv.config();
-
-const logger = createLogger({
-  transports: [new transports.Console()],
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(({ timestamp, level, message }) => {
-      return `[${timestamp}] ${level}: ${message}`;
-    })
-  ),
-});
-
-export const envConfig: EnvConfig = {
-  baseUrl: process.env.PHOTOPRISM_SITE_URL
-    ? cleanUrl(process.env.PHOTOPRISM_SITE_URL)
-    : 'http://localhost:2342/',
-  hostPort: process.env.HOSTPORT ? parseInt(process.env.HOSTPORT) : 2343,
-  user: process.env.PHOTOPRISM_USERNAME ? process.env.PHOTOPRISM_USERNAME : 'admin',
-  pass: process.env.PHOTOPRISM_PASSWORD ? process.env.PHOTOPRISM_PASSWORD : '',
-  apiKey: process.env.APIKEY ? process.env.APIKEY : 'testkey',
-};
-
-export const optionsConfig: OptionsConfig = {
-  isDocker: process.env.ISDOCKER ? parseBool(process.env.ISDOCKER) : false,
-  timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Australia/Melbourne',
-  importOptions: {
-    successTimeout: process.env.IMPORT_TIMEOUT ? parseInt(process.env.IMPORT_TIMEOUT) : 300000,
-    autoImport: process.env.AUTO_IMPORT ? parseBool(process.env.AUTO_IMPORT) : false,
-    autoImportCron: process.env.AUTO_IMPORT_CRON ? process.env.AUTO_IMPORT_CRON : '0 0 5 * * * *',
-    indexAfterAutoImport: process.env.INDEX_AFTER_AUTO_IMPORT
-      ? parseBool(process.env.INDEX_AFTER_AUTO_IMPORT)
-      : false,
-  },
-};
+import { logger } from './logger';
 
 if (envConfig.apiKey === 'testkey') {
   logger.warn(`An API key should be generated and set in env var APIKEY`);

@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
+
+import { envConfig, optionsConfig } from './config';
 import { APIOutcome, LibraryPage } from './types';
 import { webPuppeteer } from './web';
-import { photoPrism, envConfig } from './api';
+import { photoPrism } from './api';
 import { filterObject } from './helper';
 
 export async function prismLibrary(page: 'import' | 'index'): Promise<APIOutcome> {
