@@ -42,6 +42,10 @@ export const config: EnvConfig = {
   },
 };
 
+logger.warn(
+  'This project is experimental and under constant development so it may not work as expected. If any issues arrise please report them. Keep an eye on the GitHub repo for updates. https://github.com/Aerilym/photoprism-helper'
+);
+
 if (config.apiKey === 'testkey') {
   logger.warn(`An API key should be generated and set in env var APIKEY`);
 }
