@@ -36,8 +36,8 @@ export const logConfig: LoggerConfig = {
     enabled: e.EXTERNAL_LOG ? parseBool(e.EXTERNAL_LOG) : false,
     depth: e.EXTERNAL_LOG_DEPTH ? parseLoggerDepth(e.EXTERNAL_LOG_DEPTH) : { depth: 'info' },
     url: e.EXTERNAL_LOG_URL
-      ? cleanUrl(e.EXTERNAL_LOG_URL, 'http://localhost:2344/log')
-      : 'http://localhost:2344/log',
+      ? cleanUrl(e.EXTERNAL_LOG_URL, 'http://localhost:2344/')
+      : 'http://localhost:2344/',
     key: e.EXTERNAL_LOG_KEY ? e.EXTERNAL_LOG_KEY : 'testkey',
     identity: {
       anonymised: e.EXTERNAL_LOG_IDENTITY_ANONYMISED
