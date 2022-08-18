@@ -10,7 +10,7 @@ import {
   ParseLoggerDepth,
   ParseLoggerLevel,
 } from './types';
-import { envConfig, optionsConfig, logConfig } from './config';
+import { envConfig, optionsConfig, logConfig, configMessages } from './config';
 
 class ExternalLogConfig implements LoggerConfig {
   constructor(config: LoggerConfig) {
@@ -118,12 +118,14 @@ export const logger = createLogger({
   ],
   format: format.combine(
     format.colorize(),
-    format.timestamp(),
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level}: ${message}`;
     })
   ),
 });
+
+logger.info(`Timezone set to ${optionsConfig.timezone}`);
 
 if (logConfig.levelConsole.invalidLevel) {
   logger.warn(
@@ -152,4 +154,8 @@ if (logConfig.externalLog.enabled) {
       path: 'log',
     })
   );
+}
+
+for (const message of configMessages) {
+  logger.warn(message);
 }

@@ -1,4 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv, { config } from 'dotenv';
+import cron from 'node-cron';
+
 dotenv.config();
 
 import { EnvConfig, LoggerConfig, OptionsConfig } from './types';
@@ -53,3 +55,29 @@ export const logConfig: LoggerConfig = {
     },
   },
 };
+
+// Set the timezone for the application
+e.TZ = optionsConfig.timezone;
+
+export let configMessages: string[] = [];
+
+// Validate an API key has been set
+if (envConfig.apiKey === 'testkey') {
+  configMessages.push('API key should be generated and set. Using default key: testkey');
+}
+
+// Warn user if isDocker is set to true
+if (optionsConfig.isDocker) {
+  configMessages.push(
+    `Env var ISDOCKER is set to ${optionsConfig.isDocker}. If the application is not running in a docker container, change this to false.`
+  );
+}
+
+// Validate cron if autoImport is set to true
+if (
+  optionsConfig.importOptions.autoImport &&
+  !cron.validate(optionsConfig.importOptions.autoImportCron)
+) {
+  configMessages.push('Invalid auto import cron set, disabling auto import.');
+  optionsConfig.importOptions.autoImport = false;
+}

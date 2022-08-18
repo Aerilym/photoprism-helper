@@ -9,24 +9,6 @@ import { prismLibrary, prismStats } from './features';
 import { Requester } from './requester';
 import { logger } from './logger';
 
-if (envConfig.apiKey === 'testkey') {
-  logger.warn(`An API key should be generated and set in env var APIKEY`);
-}
-
-if (optionsConfig.isDocker) {
-  logger.warn(
-    `Env var ISDOCKER is set to ${optionsConfig.isDocker}. If the application is not running in a docker container change this to false.`
-  );
-}
-
-if (
-  optionsConfig.importOptions.autoImport &&
-  !cron.validate(optionsConfig.importOptions.autoImportCron)
-) {
-  logger.warn('Invalid auto import cron set, disabling auto import.');
-  optionsConfig.importOptions.autoImport = false;
-}
-
 logger.info(`Targeting PhotoPrism instance at ${envConfig.baseUrl}`);
 
 const api = express();
