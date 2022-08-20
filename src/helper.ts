@@ -1,12 +1,6 @@
 import { Request } from 'express';
 
-import {
-  AuthResponse,
-  AuthValidation,
-  LoggerDepth,
-  ParseLoggerDepth,
-  ParseLoggerLevel,
-} from './types';
+import { AuthResponse, AuthValidation, ParseLoggerDepth, ParseLoggerLevel } from './types';
 
 export function isUrl(url: string) {
   let urlObj;

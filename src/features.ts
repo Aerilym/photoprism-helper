@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
 
-import { envConfig, optionsConfig } from './config';
+import { envConfig } from './config';
 import { APIOutcome, LibraryPage } from './types';
 import { webPuppeteer } from './web';
 import { photoPrism } from './api';
