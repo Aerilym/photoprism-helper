@@ -1,23 +1,17 @@
 import { createLogger, transports, format } from 'winston';
-import Transport from 'winston-transport';
-import axios from 'axios';
 import { AxiosTransport } from 'winston-axios';
 
-import {
-  LoggerConfig,
-  LoggerDepth,
-  LoggerLevel,
-  OptionsConfig,
-  ParseLoggerDepth,
-  ParseLoggerLevel,
-} from './types';
-import { envConfig, optionsConfig, logConfig, configMessages } from './config';
+import { LoggerConfig, OptionsConfig, ParseLoggerDepth, ParseLoggerLevel } from './types';
+import { optionsConfig, logConfig, configMessages } from './config';
 
 class ExternalLogConfig implements LoggerConfig {
   constructor(config: LoggerConfig) {
     this.file = config.file;
     this.levelConsole = config.levelConsole;
     this.levelFile = config.levelFile;
+    this.sendErrors = config.sendErrors;
+    this.errorLogUrl = config.errorLogUrl;
+    this.errorLogKey = config.errorLogKey;
     this.externalLog = config.externalLog;
     this.externalLog.identity.options = config.externalLog.identity.sendOptions
       ? config.externalLog.identity.options
@@ -32,6 +26,9 @@ class ExternalLogConfig implements LoggerConfig {
   file: string;
   levelConsole: ParseLoggerLevel;
   levelFile: ParseLoggerLevel;
+  sendErrors: boolean;
+  errorLogUrl: string;
+  errorLogKey: string;
   externalLog: {
     enabled: boolean;
     depth: ParseLoggerDepth;
@@ -56,10 +53,6 @@ export const logger = createLogger({
       filename: optionsConfig.logFile,
       level: logConfig.levelFile.level,
     }),
-    new transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-    }),
   ],
   format: format.combine(
     format.colorize(),
@@ -68,7 +61,41 @@ export const logger = createLogger({
       return `[${timestamp}] ${level}: ${message}`;
     })
   ),
+  exitOnError: false,
 });
+
+const externalLogConfig = new ExternalLogConfig(logConfig);
+
+// Call exceptions.handle with a transport to handle exceptions
+if (logConfig.sendErrors) {
+  const externalBodyAddons = {
+    identifiers: {
+      anonymised: externalLogConfig.externalLog.identity.anonymised,
+      sendOptions: externalLogConfig.externalLog.identity.sendOptions,
+      identifier: externalLogConfig.externalLog.identity.identifier,
+      version: externalLogConfig.externalLog.identity.version,
+      environment: externalLogConfig.externalLog.identity.environment,
+      options: externalLogConfig.externalLog.identity.options,
+    },
+  };
+
+  logger.exceptions.handle(
+    new AxiosTransport({
+      url: logConfig.errorLogUrl,
+      auth: logConfig.errorLogKey,
+      authType: 'bearer',
+      bodyAddons: externalLogConfig.externalLog.identity.options,
+    })
+  );
+  logger.rejections.handle(
+    new AxiosTransport({
+      url: logConfig.errorLogUrl,
+      auth: logConfig.errorLogKey,
+      authType: 'bearer',
+      bodyAddons: externalBodyAddons,
+    })
+  );
+}
 
 logger.info(`Timezone set to ${optionsConfig.timezone}`);
 
@@ -80,8 +107,6 @@ if (logConfig.levelConsole.invalidLevel) {
 if (logConfig.levelFile.invalidLevel) {
   logger.warn('Invalid file logging level provided, defaulting to ' + logConfig.levelFile.level);
 }
-
-const externalLogConfig = new ExternalLogConfig(logConfig);
 
 if (logConfig.externalLog.enabled) {
   logger.info(`External logging enabled: ${externalLogConfig.externalLog.url}`);
@@ -95,7 +120,7 @@ if (logConfig.externalLog.enabled) {
     new AxiosTransport({
       level: 'info',
       auth: externalLogConfig.externalLog.key,
-      host: externalLogConfig.externalLog.url,
+      url: externalLogConfig.externalLog.url,
       path: 'log',
     })
   );

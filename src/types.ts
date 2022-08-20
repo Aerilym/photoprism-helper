@@ -91,6 +91,9 @@ export interface LoggerConfig {
   file: string;
   levelConsole: ParseLoggerLevel;
   levelFile: ParseLoggerLevel;
+  sendErrors: boolean;
+  errorLogUrl: string;
+  errorLogKey: string;
   externalLog: {
     enabled: boolean;
     depth: ParseLoggerDepth;

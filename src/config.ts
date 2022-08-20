@@ -1,4 +1,4 @@
-import dotenv, { config } from 'dotenv';
+import dotenv from 'dotenv';
 import cron from 'node-cron';
 
 dotenv.config();
@@ -34,6 +34,11 @@ export const logConfig: LoggerConfig = {
   file: e.LOGFILE ? e.LOGFILE : 'logs/local.log',
   levelConsole: e.LOGLEVEL_CONSOLE ? parseLoggerLevel(e.LOGLEVEL_CONSOLE) : { level: 'info' },
   levelFile: e.LOGLEVEL_FILE ? parseLoggerLevel(e.LOGLEVEL_FILE) : { level: 'error' },
+  sendErrors: e.SEND_ERRORS ? parseBool(e.SEND_ERRORS) : false,
+  errorLogUrl: e.ERROR_LOG_URL
+    ? cleanUrl(e.ERROR_LOG_URL, 'http://localhost:2344/errorlog')
+    : 'http://localhost:2344/errorlog',
+  errorLogKey: e.ERROR_LOG_KEY ? e.ERROR_LOG_KEY : 'abc123',
   externalLog: {
     enabled: e.EXTERNAL_LOG ? parseBool(e.EXTERNAL_LOG) : false,
     depth: e.EXTERNAL_LOG_DEPTH ? parseLoggerDepth(e.EXTERNAL_LOG_DEPTH) : { depth: 'info' },
@@ -49,7 +54,7 @@ export const logConfig: LoggerConfig = {
         ? parseBool(e.EXTERNAL_LOG_IDENTITY_SEND_OPTIONS)
         : false,
       identifier: '',
-      version: '',
+      version: e.npm_package_version ? e.npm_package_version : '',
       environment: '',
       options: optionsConfig,
     },
