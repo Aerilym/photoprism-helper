@@ -1,67 +1,15 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import cron from 'node-cron';
 import bodyParser from 'body-parser';
-import { createLogger, transports, format } from 'winston';
-import { cleanUrl, validateAuth, parseBool } from './helper';
-import { EnvConfig } from './types';
+
+import { envConfig, optionsConfig } from './config';
+import { validateAuth } from './helper';
 import { prismLibrary, prismStats } from './features';
 import { Requester } from './requester';
+import { logger } from './logger';
 
-dotenv.config();
-
-const logger = createLogger({
-  transports: [new transports.Console()],
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(({ timestamp, level, message }) => {
-      return `[${timestamp}] ${level}: ${message}`;
-    })
-  ),
-});
-
-export const config: EnvConfig = {
-  baseUrl: process.env.PHOTOPRISM_SITE_URL
-    ? cleanUrl(process.env.PHOTOPRISM_SITE_URL)
-    : 'http://localhost:2342/',
-  hostPort: process.env.HOSTPORT ? parseInt(process.env.HOSTPORT) : 2343,
-  user: process.env.PHOTOPRISM_USERNAME ? process.env.PHOTOPRISM_USERNAME : 'admin',
-  pass: process.env.PHOTOPRISM_PASSWORD ? process.env.PHOTOPRISM_PASSWORD : '',
-  apiKey: process.env.APIKEY ? process.env.APIKEY : 'testkey',
-  isDocker: process.env.ISDOCKER ? parseBool(process.env.ISDOCKER) : false,
-  timezone: process.env.TIMEZONE ? process.env.TIMEZONE : 'Australia/Melbourne',
-  importOptions: {
-    successTimeout: process.env.IMPORT_TIMEOUT ? parseInt(process.env.IMPORT_TIMEOUT) : 300000,
-    autoImport: process.env.AUTO_IMPORT ? parseBool(process.env.AUTO_IMPORT) : false,
-    autoImportCron: process.env.AUTO_IMPORT_CRON ? process.env.AUTO_IMPORT_CRON : '0 0 5 * * * *',
-    indexAfterAutoImport: process.env.INDEX_AFTER_AUTO_IMPORT
-      ? parseBool(process.env.INDEX_AFTER_AUTO_IMPORT)
-      : false,
-  },
-};
-
-logger.warn(
-  'This project is experimental and under constant development so it may not work as expected. If any issues arrise please report them. Keep an eye on the GitHub repo for updates. https://github.com/Aerilym/photoprism-helper'
-);
-
-if (config.apiKey === 'testkey') {
-  logger.warn(`An API key should be generated and set in env var APIKEY`);
-}
-
-if (config.isDocker) {
-  logger.warn(
-    `Env var ISDOCKER is set to ${config.isDocker}. If the application is not running in a docker container change this to false.`
-  );
-}
-
-if (config.importOptions.autoImport && !cron.validate(config.importOptions.autoImportCron)) {
-  logger.warn('Invalid auto import cron set, disabling auto import.');
-  config.importOptions.autoImport = false;
-}
-
-logger.info(`Targeting PhotoPrism instance at ${config.baseUrl}`);
+logger.info(`Targeting PhotoPrism instance at ${envConfig.baseUrl}`);
 
 const api = express();
 api.use(bodyParser.urlencoded({ extended: true }));
@@ -77,12 +25,12 @@ const limiter = RateLimit({
 api.use(limiter);
 
 export const photoPrism = new Requester({
-  username: config.user,
-  password: config.pass,
+  username: envConfig.user,
+  password: envConfig.pass,
 }).photoPrism;
 
 api.use(function (req, res, next) {
-  validateAuth(req).then((authOutcome) => {
+  validateAuth(req, envConfig.apiKey).then((authOutcome) => {
     if (!authOutcome.success) {
       return res.status(403).json({ error: authOutcome.message });
     }
@@ -112,24 +60,24 @@ api.get('/stats', (req, res) => {
   return prismStats(req, res);
 });
 
-api.listen(config.hostPort, () => {
-  logger.info(`PhotoPrism Helper API listening on port ${config.hostPort}`);
+api.listen(envConfig.hostPort, () => {
+  logger.info(`PhotoPrism Helper API listening on port ${envConfig.hostPort}`);
 });
 
-if (config.importOptions.autoImport) {
+if (optionsConfig.importOptions.autoImport) {
   cron.schedule(
-    config.importOptions.autoImportCron,
+    optionsConfig.importOptions.autoImportCron,
     async () => {
       logger.info('Running auto import.');
       const importOutcome = await prismLibrary('import');
       logger.info(importOutcome.message);
-      if (config.importOptions.indexAfterAutoImport) {
+      if (optionsConfig.importOptions.indexAfterAutoImport) {
         const indexOutcome = await prismLibrary('index');
         logger.info(indexOutcome.message);
       }
     },
     {
-      timezone: config.timezone,
+      timezone: optionsConfig.timezone,
     }
   );
 }

@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "..\\photoprism-helper-log-server"
+    },
+    {
+      "path": "..\\winston-axios"
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.enable": true
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-azuretools.vscode-docker",
+      "cschleiden.vscode-github-actions",
+      "github.copilot",
+      "github.vscode-pull-request-github",
+      "bierner.markdown-preview-github-styles",
+      "esbenp.prettier-vscode"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { config } from './api';
-import { AuthResponse, AuthValidation } from './types';
+
+import { AuthResponse, AuthValidation, ParseLoggerDepth, ParseLoggerLevel } from './types';
 
 export function isUrl(url: string) {
   let urlObj;
@@ -14,17 +14,17 @@ export function isUrl(url: string) {
   return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
 }
 
-export function cleanUrl(url: string): string {
+export function cleanUrl(url: string, defaultUrl: string): string {
   if (url.slice(-1) != '/') {
     url += '/';
   }
   if (isUrl(url)) {
     return url;
   }
-  return 'http://localhost/';
+  return defaultUrl;
 }
 
-export async function validateAuth(request: Request): Promise<AuthValidation> {
+export async function validateAuth(request: Request, apiKey: string): Promise<AuthValidation> {
   if (!request.headers) {
     return new AuthResponse(false, 'Request contained no header.');
   }
@@ -35,7 +35,7 @@ export async function validateAuth(request: Request): Promise<AuthValidation> {
   if (authHeader.length !== 2 || authHeader[0] !== 'Bearer') {
     return new AuthResponse(false, 'Request authorization header incorrectly formatted.');
   }
-  if (authHeader[1] !== config.apiKey) {
+  if (authHeader[1] !== apiKey) {
     return new AuthResponse(false, 'Invalid API Key');
   } else {
     return new AuthResponse(true, 'Authenticated');
@@ -77,4 +77,44 @@ export function filterObject(mainObject: object, filterObject: object, allowEmpt
   }
 
   return filteredObject;
+}
+
+export function parseLoggerDepth(depthString: string): ParseLoggerDepth {
+  switch (depthString) {
+    case 'all':
+      return { depth: 'all' };
+    case 'error':
+      return { depth: 'error' };
+    case 'warn':
+      return { depth: 'warn' };
+    case 'info':
+      return { depth: 'info' };
+    case 'stats':
+      return { depth: 'stats' };
+    case 'none':
+      return { depth: 'none' };
+    default:
+      return { depth: 'none', invalidDepth: true };
+  }
+}
+
+export function parseLoggerLevel(levelString: string): ParseLoggerLevel {
+  switch (levelString) {
+    case 'error':
+      return { level: 'error' };
+    case 'warn':
+      return { level: 'warn' };
+    case 'info':
+      return { level: 'info' };
+    case 'http':
+      return { level: 'http' };
+    case 'verbose':
+      return { level: 'verbose' };
+    case 'debug':
+      return { level: 'debug' };
+    case 'silly':
+      return { level: 'silly' };
+    default:
+      return { level: 'error', invalidLevel: true };
+  }
 }

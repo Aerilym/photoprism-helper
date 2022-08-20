@@ -4,10 +4,12 @@
   "description": "An unofficial companion tool created for use alongside PhotoPrism to enable api endpoints and automation.",
   "main": "build/api.js",
   "scripts": {
+    "prebuild": "rimraf build",
     "build": "tsc",
     "build:docker": "docker build -t aerilym/photoprism-helper .",
     "start:dev": "nodemon",
-    "start:prd": "node build/api.js"
+    "start:prd": "node build/api.js",
+    "reinstall:wa": "npm remove winston-axios && npm install winston-axios"
   },
   "keywords": [
     "PhotoPrism",
@@ -24,7 +26,8 @@
     "node-cron": "^3.0.1",
     "puppeteer": "^16.1.0",
     "uuid": "^8.3.2",
-    "winston": "^3.8.1"
+    "winston": "^3.8.1",
+    "winston-axios": "^1.7.3"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
