@@ -64,7 +64,7 @@ export const logConfig: LoggerConfig = {
 // Set the timezone for the application
 e.TZ = optionsConfig.timezone;
 
-export let configMessages: string[] = [];
+export const configMessages: string[] = [];
 
 // Validate an API key has been set
 if (envConfig.apiKey === 'testkey') {
