@@ -44,16 +44,43 @@ docker build -t aerilym/photoprism-helper .
 
 A list of possible environment variables is available: [.env.template](.env.template)
 
-- `PHOTOPRISM_SITE_URL` - The URL of your PhotoPrism instance. (default: `http://192.168.1.113:2342/`)
-- `PHOTOPRISM_USERNAME` - The PhotoPrism username you want the helper to use for access.
-- `PHOTOPRISM_PASSWORD` - The PhotoPrism password associated with the username.
-- `APIKEY` - The API key you'll use to query the helper API.
-- `ISDOCKER` - Tells the helper instance if it is running in a Docker container. (This is a temporary fix and is planned to be removed)
-- `TIMEZONE` - The Time zone of your instance. (default: `Melbourne/Australia`)
-- `IMPORT_TIMEOUT` - The number of milliseconds the import function should wait for a success message before timing out. (default `300000`)
-- `AUTO_IMPORT` - Enable/Disable the auto-import feature. (default: `false`)
-- `AUTO_IMPORT_CRON` - The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import. (default: `0 0 5 * * * *`)
-- `INDEX_AFTER_AUTO_IMPORT` - Enable/Disable the index after auto-importing feature. (default: `false`)
+| Variable                           | Default                             | Description                                                                                         |
+| ---------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| PHOTOPRISM_SITE_URL                | <code>http://localhost:2342/</code> | The URL of your PhotoPrism instance.                                                                |
+| HOSTPORT                           | <code>2343</code>                   | The port the helper is hosted on.                                                                   |
+| PHOTOPRISM_USERNAME                | <code>admin</code>                  | The PhotoPrism username you want the helper to use for access.                                      |
+| PHOTOPRISM_PASSWORD                | <code></code>                       | The PhotoPrism password associated with the username.                                               |
+| APIKEY                             | <code>testkey</code>                | The API key you'll use to query the helper API.                                                     |
+| ISDOCKER                           | <code>false</code>                  | Tells the helper instance if it is running in a Docker container. (To be removed)                   |
+| TIMEZONE                           | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
+| IMPORT_TIMEOUT                     | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
+| AUTO_IMPORT                        | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
+| AUTO_IMPORT_CRON                   | <code>0 0 5 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
+| INDEX_AFTER_AUTO_IMPORT            | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
+| LOGFILE_PATH                       | <code>logs/local.log</code>         | The logging file path.                                                                              |
+| LOGLEVEL_CONSOLE                   | <code>info</code>                   | The log level to apply to the console log.                                                          |
+| LOGLEVEL_FILE                      | <code>error</code>                  | The log level to apply to the file log.                                                             |
+| SEND_ERRORS                        | <code>true</code>                   | Enable/Disable sending errors/exceptions to the dev.                                                |
+| ERROR_LOG_URL                      | <code></code>                       | The URL to send errors to. (Don't change unless you're running your own fork of the helper)         |
+| ERROR_LOG_KEY                      | <code></code>                       | The API key sent with error logs to the external server.                                            |
+| ERROR_LOG_IDENTITY_ANONYMISED      | <code>false</code>                  | Enable/Disable anonymising externally sent error logs.                                              |
+| ERROR_LOG_IDENTITY_SEND_OPTIONS    | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent errors.                      |
+| EXTERNAL_LOG                       | <code>false</code>                  | Enable/Disable sending logs to an external log server.                                              |
+| EXTERNAL_LOG_DEPTH                 | <code>info</code>                   | The log level to apply to the external log.                                                         |
+| EXTERNAL_LOG_URL                   | <code></code>                       | The URL of the external log server.                                                                 |
+| EXTERNAL_LOG_KEY                   | <code></code>                       | The API key sent with logs sent to the external log server.                                         |
+| EXTERNAL_LOG_IDENTITY_ANONYMISED   | <code>false</code>                  | Enable/Disable anonymising externally sent logs.                                                    |
+| EXTERNAL_LOG_IDENTITY_SEND_OPTIONS | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent logs.                        |
+
+If enabled, the configuration options sent with externally sent errors and logs are:
+
+- `ISDOCKER`
+- `TIMEZONE`
+- `LOGFILE_PATH`
+- `IMPORT_TIMEOUT`
+- `AUTO_IMPORT`
+- `AUTO_IMPORT_CRON`
+- `INDEX_AFTER_AUTO_IMPORT`
 
 ### Building a Local Install
 

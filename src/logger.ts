@@ -50,7 +50,7 @@ export const logger = createLogger({
   transports: [
     new transports.Console({ level: logConfig.levelConsole.level }),
     new transports.File({
-      filename: optionsConfig.logFile,
+      filename: optionsConfig.logFilePath,
       level: logConfig.levelFile.level,
     }),
   ],

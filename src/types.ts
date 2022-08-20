@@ -39,7 +39,7 @@ export interface EnvConfig {
 export interface OptionsConfig {
   isDocker: boolean;
   timezone: string;
-  logFile: string;
+  logFilePath: string;
   importOptions: {
     successTimeout: number;
     autoImport: boolean;

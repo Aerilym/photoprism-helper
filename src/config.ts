@@ -21,7 +21,7 @@ export const envConfig: EnvConfig = {
 export const optionsConfig: OptionsConfig = {
   isDocker: e.ISDOCKER ? parseBool(e.ISDOCKER) : false,
   timezone: e.TIMEZONE ? e.TIMEZONE : 'Australia/Melbourne',
-  logFile: e.LOGFILE ? e.LOGFILE : 'logs/local.log',
+  logFilePath: e.LOGFILE_PATH ? e.LOGFILE_PATH : 'logs/local.log',
   importOptions: {
     successTimeout: e.IMPORT_TIMEOUT ? parseInt(e.IMPORT_TIMEOUT) : 300000,
     autoImport: e.AUTO_IMPORT ? parseBool(e.AUTO_IMPORT) : false,
@@ -52,7 +52,7 @@ export const logConfig: LoggerConfig = {
         : false,
       sendOptions: e.EXTERNAL_LOG_IDENTITY_SEND_OPTIONS
         ? parseBool(e.EXTERNAL_LOG_IDENTITY_SEND_OPTIONS)
-        : false,
+        : true,
       identifier: '',
       version: e.npm_package_version ? e.npm_package_version : '',
       environment: '',
