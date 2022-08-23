@@ -64,20 +64,24 @@ api.listen(envConfig.hostPort, () => {
   logger.info(`PhotoPrism Helper API listening on port ${envConfig.hostPort}`);
 });
 
-if (optionsConfig.importOptions.autoImport) {
-  cron.schedule(
-    optionsConfig.importOptions.autoImportCron,
-    async () => {
-      logger.info('Running auto import.');
-      const importOutcome = await prismLibrary('import');
-      logger.info(importOutcome.message);
-      if (optionsConfig.importOptions.indexAfterAutoImport) {
-        const indexOutcome = await prismLibrary('index');
-        logger.info(indexOutcome.message);
-      }
-    },
-    {
-      timezone: optionsConfig.timezone,
+let autoImportTask = cron.schedule(
+  optionsConfig.importOptions.autoImportCron,
+  async () => {
+    logger.info('Running auto import.');
+    const importOutcome = await prismLibrary('import');
+    logger.info(importOutcome.message);
+    if (optionsConfig.importOptions.indexAfterAutoImport) {
+      const indexOutcome = await prismLibrary('index');
+      logger.info(indexOutcome.message);
     }
-  );
+  },
+  {
+    timezone: optionsConfig.timezone,
+    scheduled: false,
+  }
+);
+
+if (optionsConfig.importOptions.autoImport) {
+  logger.info('scheduling auto import task.');
+  autoImportTask.start();
 }
