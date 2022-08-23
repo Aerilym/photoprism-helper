@@ -45,6 +45,8 @@ export interface OptionsConfig {
     autoImport: boolean;
     autoImportCron: string;
     indexAfterAutoImport: boolean;
+    autoIndex: boolean;
+    autoIndexCron: string;
   };
 }
 

@@ -81,7 +81,25 @@ let autoImportTask = cron.schedule(
   }
 );
 
+let autoIndexTask = cron.schedule(
+  optionsConfig.importOptions.autoImportCron,
+  async () => {
+    logger.info('Running auto index.');
+    const importOutcome = await prismLibrary('index');
+    logger.info(importOutcome.message);
+  },
+  {
+    timezone: optionsConfig.timezone,
+    scheduled: false,
+  }
+);
+
 if (optionsConfig.importOptions.autoImport) {
-  logger.info('scheduling auto import task.');
+  logger.info('Scheduling auto import task.');
   autoImportTask.start();
+}
+
+if (optionsConfig.importOptions.autoImport) {
+  logger.info('Scheduling auto index task.');
+  autoIndexTask.start();
 }

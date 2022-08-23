@@ -25,8 +25,10 @@ export const optionsConfig: OptionsConfig = {
   importOptions: {
     successTimeout: e.IMPORT_TIMEOUT ? parseInt(e.IMPORT_TIMEOUT) : 300000,
     autoImport: e.AUTO_IMPORT ? parseBool(e.AUTO_IMPORT) : false,
-    autoImportCron: e.AUTO_IMPORT_CRON ? e.AUTO_IMPORT_CRON : '0 0 5 * * * *',
+    autoImportCron: e.AUTO_IMPORT_CRON ? e.AUTO_IMPORT_CRON : '0 0 4 * * * *',
     indexAfterAutoImport: e.INDEX_AFTER_AUTO_IMPORT ? parseBool(e.INDEX_AFTER_AUTO_IMPORT) : false,
+    autoIndex: e.AUTO_INDEX ? parseBool(e.AUTO_INDEX) : false,
+    autoIndexCron: e.AUTO_INDEX_CRON ? e.AUTO_INDEX_CRON : '0 0 6 * * * *',
   },
 };
 

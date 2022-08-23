@@ -55,8 +55,10 @@ A list of possible environment variables is available: [.env.template](.env.temp
 | TIMEZONE                           | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
 | IMPORT_TIMEOUT                     | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
 | AUTO_IMPORT                        | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
-| AUTO_IMPORT_CRON                   | <code>0 0 5 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
+| AUTO_IMPORT_CRON                   | <code>0 0 4 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
 | INDEX_AFTER_AUTO_IMPORT            | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
+| AUTO_INDEX                         | <code>false</code>                  | Enable/Disable the auto-index feature.                                                              |
+| AUTO_INDEX_CRON                    | <code>0 0 6 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-index.          |
 | LOGFILE_PATH                       | <code>logs/local.log</code>         | The logging file path.                                                                              |
 | LOGLEVEL_CONSOLE                   | <code>info</code>                   | The log level to apply to the console log.                                                          |
 | LOGLEVEL_FILE                      | <code>error</code>                  | The log level to apply to the file log.                                                             |
