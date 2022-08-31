@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 import { envConfig, optionsConfig } from './config';
 import { validateAuth } from './helper';
-import { prismLibrary, prismStats } from './features';
+import { prismImport, prismIndex, prismStats } from './features';
 import { Requester } from './requester';
 import { logger } from './logger';
 
@@ -42,7 +42,7 @@ api.use(function (req, res, next) {
  * Initiates the import feature of PhotoPrism
  */
 api.post('/import', async (req, res) => {
-  const outcome = await prismLibrary('import');
+  const outcome = await prismImport();
   logger.info(outcome.message);
   return res.status(outcome.code).json({ message: outcome.message });
 });
@@ -51,7 +51,7 @@ api.post('/import', async (req, res) => {
  * Initiates the index feature of PhotoPrism
  */
 api.post('/index', async (req, res) => {
-  const outcome = await prismLibrary('index');
+  const outcome = await prismIndex();
   logger.info(outcome.message);
   return res.status(outcome.code).json({ message: outcome.message });
 });
@@ -68,10 +68,10 @@ let autoImportTask = cron.schedule(
   optionsConfig.importOptions.autoImportCron,
   async () => {
     logger.info('Running auto import.');
-    const importOutcome = await prismLibrary('import');
+    const importOutcome = await prismImport();
     logger.info(importOutcome.message);
     if (optionsConfig.importOptions.indexAfterAutoImport) {
-      const indexOutcome = await prismLibrary('index');
+      const indexOutcome = await prismIndex();
       logger.info(indexOutcome.message);
     }
   },
@@ -85,7 +85,7 @@ let autoIndexTask = cron.schedule(
   optionsConfig.importOptions.autoImportCron,
   async () => {
     logger.info('Running auto index.');
-    const importOutcome = await prismLibrary('index');
+    const importOutcome = await prismIndex();
     logger.info(importOutcome.message);
   },
   {

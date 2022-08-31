@@ -1,25 +1,29 @@
 import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
 
-import { envConfig } from './config';
-import { APIOutcome, LibraryPage } from './types';
-import { webPuppeteer } from './web';
+import { envConfig, optionsConfig } from './config';
+import { APIOutcome } from './types';
 import { photoPrism } from './api';
 import { filterObject } from './helper';
+import { logger } from './logger';
 
-export async function prismLibrary(page: 'import' | 'index'): Promise<APIOutcome> {
-  const pageInfo: LibraryPage = {
-    path: `library/${page}`,
-    selector: {
-      action: `button[class*="action-${page}"]`,
-      successMessage: 'div[class="v-snack__wrapper success"]',
-    },
-  };
-  let outcome = { code: 500, message: 'Unknown error' };
-  await webPuppeteer.library(pageInfo).then((res) => {
-    outcome = res;
-  });
-  return outcome;
+export async function prismLogin(): Promise<string> {
+  return await photoPrism
+    .post(
+      'session',
+      {
+        username: envConfig.user,
+        password: envConfig.pass,
+      },
+      { timeout: 10000 }
+    )
+    .then((outcome: AxiosResponse) => {
+      return outcome.data.id;
+    })
+    .catch((err) => {
+      logger.error(err);
+      return 'Invalid credentials';
+    });
 }
 
 export async function prismStats(req: Request, res: Response) {
@@ -42,4 +46,54 @@ export async function prismStats(req: Request, res: Response) {
         return res.status(error.response.status).json(error.response.data);
       }
     });
+}
+
+export async function prismApi(
+  endpoint: string,
+  body: object,
+  timeout: number
+): Promise<APIOutcome> {
+  const sessionId = await prismLogin();
+  if (sessionId === 'Invalid credentials') {
+    logger.warn('Invalid PhotoPrism credentials provided!');
+    return { code: 401, message: 'Invalid PhotoPrism credentials provided!' };
+  }
+  let outcome;
+  try {
+    outcome = await photoPrism.post(endpoint, body, {
+      headers: {
+        'X-Session-ID': sessionId,
+      },
+      timeout: timeout,
+    });
+  } catch (error) {
+    logger.error(error);
+    return { code: 500, message: 'Unknown error' };
+  }
+
+  return { code: outcome.status, message: outcome.data.message };
+}
+
+export async function prismImport(): Promise<APIOutcome> {
+  return prismApi(
+    'import',
+    {
+      path: '/',
+      move: true,
+    },
+    optionsConfig.importOptions.successTimeout
+  );
+}
+
+export async function prismIndex(): Promise<APIOutcome> {
+  return prismApi(
+    'index',
+    {
+      convert: true,
+      path: '/',
+      rescan: false,
+      skipArchived: false,
+    },
+    300000
+  );
 }

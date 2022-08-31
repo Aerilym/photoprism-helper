@@ -24,6 +24,7 @@ export const optionsConfig: OptionsConfig = {
   logFilePath: e.LOGFILE_PATH ? e.LOGFILE_PATH : 'logs/local.log',
   importOptions: {
     successTimeout: e.IMPORT_TIMEOUT ? parseInt(e.IMPORT_TIMEOUT) : 300000,
+    moveOnImport: e.MOVE_ON_IMPORT ? parseBool(e.MOVE_ON_IMPORT) : false,
     autoImport: e.AUTO_IMPORT ? parseBool(e.AUTO_IMPORT) : false,
     autoImportCron: e.AUTO_IMPORT_CRON ? e.AUTO_IMPORT_CRON : '0 0 4 * * * *',
     indexAfterAutoImport: e.INDEX_AFTER_AUTO_IMPORT ? parseBool(e.INDEX_AFTER_AUTO_IMPORT) : false,

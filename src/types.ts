@@ -42,6 +42,7 @@ export interface OptionsConfig {
   logFilePath: string;
   importOptions: {
     successTimeout: number;
+    moveOnImport: boolean;
     autoImport: boolean;
     autoImportCron: string;
     indexAfterAutoImport: boolean;

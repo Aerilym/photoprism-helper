@@ -54,6 +54,7 @@ A list of possible environment variables is available: [.env.template](.env.temp
 | ISDOCKER                           | <code>false</code>                  | Tells the helper instance if it is running in a Docker container. (To be removed)                   |
 | TIMEZONE                           | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
 | IMPORT_TIMEOUT                     | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
+| MOVE_ON_IMPORT                     | <code>false</code>                  | Enable/Disable moving files on import.                                                              |
 | AUTO_IMPORT                        | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
 | AUTO_IMPORT_CRON                   | <code>0 0 4 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
 | INDEX_AFTER_AUTO_IMPORT            | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
@@ -80,6 +81,7 @@ If enabled, the configuration options sent with externally sent errors and logs 
 - `TIMEZONE`
 - `LOGFILE_PATH`
 - `IMPORT_TIMEOUT`
+- `MOVE_ON_IMPORT`
 - `AUTO_IMPORT`
 - `AUTO_IMPORT_CRON`
 - `INDEX_AFTER_AUTO_IMPORT`
