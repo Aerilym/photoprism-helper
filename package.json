@@ -4,7 +4,6 @@
   "description": "An unofficial companion tool created for use alongside PhotoPrism to enable api endpoints and automation.",
   "main": "build/api.js",
   "scripts": {
-    "prebuild": "rimraf build",
     "build": "tsc",
     "build:docker": "docker build -t aerilym/photoprism-helper .",
     "start:dev": "nodemon",
@@ -24,8 +23,6 @@
     "express": "^4.18.1",
     "express-rate-limit": "^6.5.1",
     "node-cron": "^3.0.1",
-    "puppeteer": "^16.1.0",
-    "uuid": "^8.3.2",
     "winston": "^3.8.1",
     "winston-axios": "^1.7.3"
   },

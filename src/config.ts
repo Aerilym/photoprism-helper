@@ -19,16 +19,28 @@ export const envConfig: EnvConfig = {
 };
 
 export const optionsConfig: OptionsConfig = {
-  isDocker: e.ISDOCKER ? parseBool(e.ISDOCKER) : false,
   timezone: e.TIMEZONE ? e.TIMEZONE : 'Australia/Melbourne',
   logFilePath: e.LOGFILE_PATH ? e.LOGFILE_PATH : 'logs/local.log',
-  importOptions: {
-    successTimeout: e.IMPORT_TIMEOUT ? parseInt(e.IMPORT_TIMEOUT) : 300000,
-    autoImport: e.AUTO_IMPORT ? parseBool(e.AUTO_IMPORT) : false,
-    autoImportCron: e.AUTO_IMPORT_CRON ? e.AUTO_IMPORT_CRON : '0 0 4 * * * *',
-    indexAfterAutoImport: e.INDEX_AFTER_AUTO_IMPORT ? parseBool(e.INDEX_AFTER_AUTO_IMPORT) : false,
-    autoIndex: e.AUTO_INDEX ? parseBool(e.AUTO_INDEX) : false,
-    autoIndexCron: e.AUTO_INDEX_CRON ? e.AUTO_INDEX_CRON : '0 0 6 * * * *',
+  prismApi: {
+    default: {
+      timeout: 30000,
+    },
+    importOptions: {
+      timeout: e.IMPORT_TIMEOUT ? parseInt(e.IMPORT_TIMEOUT) : 30000,
+      move: e.MOVE_ON_IMPORT ? parseBool(e.MOVE_ON_IMPORT) : false,
+      autoImport: e.AUTO_IMPORT ? parseBool(e.AUTO_IMPORT) : false,
+      autoImportCron: e.AUTO_IMPORT_CRON ? e.AUTO_IMPORT_CRON : '0 0 4 * * * *',
+      indexAfterAutoImport: e.INDEX_AFTER_AUTO_IMPORT
+        ? parseBool(e.INDEX_AFTER_AUTO_IMPORT)
+        : false,
+    },
+    indexOptions: {
+      timeout: e.INDEX_TIMEOUT ? parseInt(e.INDEX_TIMEOUT) : 30000,
+      rescan: e.INDEX_RESCAN ? parseBool(e.INDEX_RESCAN) : false,
+      skipArchived: e.INDEX_SKIP_ARCHIVED ? parseBool(e.INDEX_SKIP_ARCHIVED) : false,
+      autoIndex: e.AUTO_INDEX ? parseBool(e.AUTO_INDEX) : false,
+      autoIndexCron: e.AUTO_INDEX_CRON ? e.AUTO_INDEX_CRON : '0 0 6 * * * *',
+    },
   },
 };
 
@@ -73,18 +85,11 @@ if (envConfig.apiKey === 'testkey') {
   configMessages.push('API key should be generated and set. Using default key: testkey');
 }
 
-// Warn user if isDocker is set to true
-if (optionsConfig.isDocker) {
-  configMessages.push(
-    `Env var ISDOCKER is set to ${optionsConfig.isDocker}. If the application is not running in a docker container, change this to false.`
-  );
-}
-
 // Validate cron if autoImport is set to true
 if (
-  optionsConfig.importOptions.autoImport &&
-  !cron.validate(optionsConfig.importOptions.autoImportCron)
+  optionsConfig.prismApi.importOptions.autoImport &&
+  !cron.validate(optionsConfig.prismApi.importOptions.autoImportCron)
 ) {
   configMessages.push('Invalid auto import cron set, disabling auto import.');
-  optionsConfig.importOptions.autoImport = false;
+  optionsConfig.prismApi.importOptions.autoImport = false;
 }
