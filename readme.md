@@ -79,14 +79,7 @@ A list of possible environment variables is available: [.env.template](.env.temp
 
 If enabled, the configuration options sent with externally sent errors and logs are:
 
-- `ISDOCKER`
-- `TIMEZONE`
-- `LOGFILE_PATH`
-- `IMPORT_TIMEOUT`
-- `MOVE_ON_IMPORT`
-- `AUTO_IMPORT`
-- `AUTO_IMPORT_CRON`
-- `INDEX_AFTER_AUTO_IMPORT`
+TBD
 
 ### Building a Local Install
 
