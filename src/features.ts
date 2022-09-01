@@ -48,6 +48,15 @@ export async function prismStats(req: Request, res: Response) {
     });
 }
 
+/**
+ * Makes a request to the PhotoPrism API to perform an action depending on
+ * the called endpoint and body parameters.
+ *
+ * @param endpoint The endpoint to call
+ * @param body The body to send to the endpoint
+ * @param timeout The timeout to use for the request
+ * @returns The outcome of the request
+ */
 export async function prismApi(
   endpoint: string,
   body: object,

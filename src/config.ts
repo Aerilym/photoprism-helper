@@ -1,3 +1,11 @@
+/** All environment variables are imported here and assigned to the appropriate
+ * variables, with default values if not set. Any nessecary parsing
+ * is done here too. Any variables assigned in optionsConfig may be
+ * sent along with error reports so should never contain sensitive
+ * information. Any sensitive information should be restricted to
+ * envConfig or a new config object.
+ */
+
 import dotenv from 'dotenv';
 import cron from 'node-cron';
 
@@ -8,6 +16,15 @@ import { parseBool, cleanUrl, parseLoggerDepth, parseLoggerLevel } from './helpe
 
 const e = process.env;
 
+/**
+ * The configuration object for the application.
+ *
+ * @param baseUrl PHOTOPRISM_SITE_URL
+ * @param hostPort HOSTPORT
+ * @param user PHOTOPRISM_USERNAME
+ * @param pass PHOTOPRISM_PASSWORD
+ * @param apiKey APIKEY
+ */
 export const envConfig: EnvConfig = {
   baseUrl: e.PHOTOPRISM_SITE_URL
     ? cleanUrl(e.PHOTOPRISM_SITE_URL, 'http://localhost:2342/')
@@ -18,6 +35,23 @@ export const envConfig: EnvConfig = {
   apiKey: e.APIKEY ? e.APIKEY : 'testkey',
 };
 
+/**
+ * The options configuration object for the application.
+ *
+ * @param timezone TIMEZONE
+ * @param logFilePath LOGFILE_PATH
+ * @param prismApi.default.timeout PRISM_API_DEFAULT_TIMEOUT
+ * @param prismApi.importOptions.timeout IMPORT_TIMEOUT
+ * @param prismApi.importOptions.move MOVE_ON_IMPORT
+ * @param prismApi.importOptions.autoImport AUTO_IMPORT
+ * @param prismApi.importOptions.autoImportCron AUTO_IMPORT_CRON
+ * @param prismApi.importOptions.indexAfterAutoImport INDEX_AFTER_AUTO_IMPORT
+ * @param prismApi.indexOptions.timeout INDEX_TIMEOUT
+ * @param prismApi.indexOptions.rescan INDEX_RESCAN
+ * @param prismApi.indexOptions.skipArchived INDEX_SKIP_ARCHIVED
+ * @param prismApi.indexOptions.autoIndex AUTO_INDEX
+ * @param prismApi.indexOptions.autoIndexCron AUTO_INDEX_CRON
+ */
 export const optionsConfig: OptionsConfig = {
   timezone: e.TIMEZONE ? e.TIMEZONE : 'Australia/Melbourne',
   logFilePath: e.LOGFILE_PATH ? e.LOGFILE_PATH : 'logs/local.log',
@@ -44,6 +78,7 @@ export const optionsConfig: OptionsConfig = {
   },
 };
 
+// Log configuration
 export const logConfig: LoggerConfig = {
   file: e.LOGFILE ? e.LOGFILE : 'logs/local.log',
   levelConsole: e.LOGLEVEL_CONSOLE ? parseLoggerLevel(e.LOGLEVEL_CONSOLE) : { level: 'info' },
@@ -61,11 +96,11 @@ export const logConfig: LoggerConfig = {
       : 'http://localhost:2344/',
     key: e.EXTERNAL_LOG_KEY ? e.EXTERNAL_LOG_KEY : 'testkey',
     identity: {
-      anonymised: e.EXTERNAL_LOG_IDENTITY_ANONYMISED
-        ? parseBool(e.EXTERNAL_LOG_IDENTITY_ANONYMISED)
+      anonymised: e.EXTERNAL_LOG_ANONYMISE
+        ? parseBool(e.EXTERNAL_LOG_ANONYMISE)
         : false,
-      sendOptions: e.EXTERNAL_LOG_IDENTITY_SEND_OPTIONS
-        ? parseBool(e.EXTERNAL_LOG_IDENTITY_SEND_OPTIONS)
+      sendOptions: e.EXTERNAL_LOG_OPTIONS
+        ? parseBool(e.EXTERNAL_LOG_OPTIONS)
         : true,
       identifier: '',
       version: e.npm_package_version ? e.npm_package_version : '',

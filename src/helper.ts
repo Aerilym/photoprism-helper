@@ -2,6 +2,12 @@ import { Request } from 'express';
 
 import { AuthResponse, AuthValidation, ParseLoggerDepth, ParseLoggerLevel } from './types';
 
+/**
+ * Checks if a url is correctly formatted.
+ *
+ * @param url An input url to validate.
+ * @returns Whether the url is valid or not.
+ */
 export function isUrl(url: string) {
   let urlObj;
 
@@ -14,6 +20,13 @@ export function isUrl(url: string) {
   return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
 }
 
+/**
+ * Attempts to parse a url into a valid url.
+ *
+ * @param url an input url to validate.
+ * @param defaultUrl the default url to use if the input url is invalid.
+ * @returns the input url if it is valid or made valid, otherwise the default url.
+ */
 export function cleanUrl(url: string, defaultUrl: string): string {
   if (url.slice(-1) != '/') {
     url += '/';
@@ -24,6 +37,13 @@ export function cleanUrl(url: string, defaultUrl: string): string {
   return defaultUrl;
 }
 
+/**
+ * Authenticates a request against the helper API.
+ *
+ * @param request The request to parse.
+ * @param apiKey The api key to use for authentication.
+ * @returns Whether the request passes authentication or not.
+ */
 export async function validateAuth(request: Request, apiKey: string): Promise<AuthValidation> {
   if (!request.headers) {
     return new AuthResponse(false, 'Request contained no header.');
@@ -42,6 +62,12 @@ export async function validateAuth(request: Request, apiKey: string): Promise<Au
   }
 }
 
+/**
+ * Parses a user input into a boolean.
+ *
+ * @param value The value to parse.
+ * @returns A boolean.
+ */
 export function parseBool(value: string | number): boolean {
   if (typeof value === 'string') {
     value = value.toLowerCase();
@@ -62,6 +88,14 @@ export function parseBool(value: string | number): boolean {
   }
 }
 
+/**
+ * Filters an object based on a filter object.
+ *
+ * @param mainObject The main object to filter.
+ * @param filterObject The object to filter against.
+ * @param allowEmpty Whether to allow empty returned objects or not.
+ * @returns The filtered object.
+ */
 export function filterObject(mainObject: object, filterObject: object, allowEmpty: boolean) {
   const selectedItems = Object.keys(filterObject);
 
@@ -79,6 +113,12 @@ export function filterObject(mainObject: object, filterObject: object, allowEmpt
   return filteredObject;
 }
 
+/**
+ * Parses a given logger depth into a valid depth.
+ *
+ * @param depthString The depth to parse.
+ * @returns The parsed depth.
+ */
 export function parseLoggerDepth(depthString: string): ParseLoggerDepth {
   switch (depthString) {
     case 'all':
@@ -98,6 +138,12 @@ export function parseLoggerDepth(depthString: string): ParseLoggerDepth {
   }
 }
 
+/**
+ * Parses a given logger level into a valid level.
+ *
+ * @param levelString The level to parse.
+ * @returns The parsed level.
+ */
 export function parseLoggerLevel(levelString: string): ParseLoggerLevel {
   switch (levelString) {
     case 'error':

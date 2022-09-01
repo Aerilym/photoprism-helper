@@ -44,38 +44,38 @@ docker build -t aerilym/photoprism-helper .
 
 A list of possible environment variables is available: [.env.template](.env.template)
 
-| Variable                           | Default                             | Description                                                                                         |
-| ---------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
-| PHOTOPRISM_SITE_URL                | <code>http://localhost:2342/</code> | The URL of your PhotoPrism instance.                                                                |
-| HOSTPORT                           | <code>2343</code>                   | The port the helper is hosted on.                                                                   |
-| PHOTOPRISM_USERNAME                | <code>admin</code>                  | The PhotoPrism username you want the helper to use for access.                                      |
-| PHOTOPRISM_PASSWORD                | <code></code>                       | The PhotoPrism password associated with the username.                                               |
-| APIKEY                             | <code>testkey</code>                | The API key you'll use to query the helper API.                                                     |
-| TIMEZONE                           | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
-| IMPORT_TIMEOUT                     | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
-| MOVE_ON_IMPORT                     | <code>false</code>                  | Enable/Disable moving files on import.                                                              |
-| AUTO_IMPORT                        | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
-| AUTO_IMPORT_CRON                   | <code>0 0 4 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
-| INDEX_AFTER_AUTO_IMPORT            | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
-| INDEX_TIMEOUT                      | <code>300000</code>                 | The number of milliseconds the index function should wait for a success message before timing out.  |
-| INDEX_RESCAN                       | <code>false</code>                  | Enable/Disable rescanining when indexing (From PhotoPrism settings).                                |
-| INDEX_SKIP_ARCHIVED                | <code>false</code>                  | Enable/Disable skipping archive (From PhotoPrism settings).                                         |
-| AUTO_INDEX                         | <code>false</code>                  | Enable/Disable the auto-index feature.                                                              |
-| AUTO_INDEX_CRON                    | <code>0 0 6 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-index.          |
-| LOGFILE_PATH                       | <code>logs/local.log</code>         | The logging file path.                                                                              |
-| LOGLEVEL_CONSOLE                   | <code>info</code>                   | The log level to apply to the console log.                                                          |
-| LOGLEVEL_FILE                      | <code>error</code>                  | The log level to apply to the file log.                                                             |
-| SEND_ERRORS                        | <code>true</code>                   | Enable/Disable sending errors/exceptions to the dev.                                                |
-| ERROR_LOG_URL                      | <code></code>                       | The URL to send errors to. (Don't change unless you're running your own fork of the helper)         |
-| ERROR_LOG_KEY                      | <code></code>                       | The API key sent with error logs to the external server.                                            |
-| ERROR_LOG_IDENTITY_ANONYMISED      | <code>false</code>                  | Enable/Disable anonymising externally sent error logs.                                              |
-| ERROR_LOG_IDENTITY_SEND_OPTIONS    | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent errors.                      |
-| EXTERNAL_LOG                       | <code>false</code>                  | Enable/Disable sending logs to an external log server.                                              |
-| EXTERNAL_LOG_DEPTH                 | <code>info</code>                   | The log level to apply to the external log.                                                         |
-| EXTERNAL_LOG_URL                   | <code></code>                       | The URL of the external log server.                                                                 |
-| EXTERNAL_LOG_KEY                   | <code></code>                       | The API key sent with logs sent to the external log server.                                         |
-| EXTERNAL_LOG_IDENTITY_ANONYMISED   | <code>false</code>                  | Enable/Disable anonymising externally sent logs.                                                    |
-| EXTERNAL_LOG_IDENTITY_SEND_OPTIONS | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent logs.                        |
+| Variable                | Default                             | Description                                                                                         |
+| ----------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
+| PHOTOPRISM_SITE_URL     | <code>http://localhost:2342/</code> | The URL of your PhotoPrism instance.                                                                |
+| HOSTPORT                | <code>2343</code>                   | The port the helper is hosted on.                                                                   |
+| PHOTOPRISM_USERNAME     | <code>admin</code>                  | The PhotoPrism username you want the helper to use for access.                                      |
+| PHOTOPRISM_PASSWORD     | <code></code>                       | The PhotoPrism password associated with the username.                                               |
+| APIKEY                  | <code>testkey</code>                | The API key you'll use to query the helper API.                                                     |
+| TIMEZONE                | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
+| IMPORT_TIMEOUT          | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
+| MOVE_ON_IMPORT          | <code>false</code>                  | Enable/Disable moving files on import.                                                              |
+| AUTO_IMPORT             | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
+| AUTO_IMPORT_CRON        | <code>0 0 4 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
+| INDEX_AFTER_AUTO_IMPORT | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
+| INDEX_TIMEOUT           | <code>300000</code>                 | The number of milliseconds the index function should wait for a success message before timing out.  |
+| INDEX_RESCAN            | <code>false</code>                  | Enable/Disable rescanining when indexing (From PhotoPrism settings).                                |
+| INDEX_SKIP_ARCHIVED     | <code>false</code>                  | Enable/Disable skipping archive (From PhotoPrism settings).                                         |
+| AUTO_INDEX              | <code>false</code>                  | Enable/Disable the auto-index feature.                                                              |
+| AUTO_INDEX_CRON         | <code>0 0 6 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-index.          |
+| LOGFILE_PATH            | <code>logs/local.log</code>         | The logging file path.                                                                              |
+| LOGLEVEL_CONSOLE        | <code>info</code>                   | The log level to apply to the console log.                                                          |
+| LOGLEVEL_FILE           | <code>error</code>                  | The log level to apply to the file log.                                                             |
+| SEND_ERRORS             | <code>true</code>                   | Enable/Disable sending errors/exceptions to the dev.                                                |
+| ERROR_LOG_URL           | <code></code>                       | The URL to send errors to. (Don't change unless you're running your own fork of the helper)         |
+| ERROR_LOG_KEY           | <code></code>                       | The API key sent with error logs to the external server.                                            |
+| ERROR_LOG_ANONYMISE     | <code>false</code>                  | Enable/Disable anonymising externally sent error logs.                                              |
+| ERROR_LOG_OPTIONS       | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent errors.                      |
+| EXTERNAL_LOG            | <code>false</code>                  | Enable/Disable sending logs to an external log server.                                              |
+| EXTERNAL_LOG_DEPTH      | <code>info</code>                   | The log level to apply to the external log.                                                         |
+| EXTERNAL_LOG_URL        | <code></code>                       | The URL of the external log server.                                                                 |
+| EXTERNAL_LOG_KEY        | <code></code>                       | The API key sent with logs sent to the external log server.                                         |
+| EXTERNAL_LOG_ANONYMISE  | <code>false</code>                  | Enable/Disable anonymising externally sent logs.                                                    |
+| EXTERNAL_LOG_OPTIONS    | <code>true</code>                   | Enable/Disable sending your configuration options with externally sent logs.                        |
 
 If enabled, the configuration options sent with externally sent errors and logs are:
 
