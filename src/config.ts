@@ -96,12 +96,8 @@ export const logConfig: LoggerConfig = {
       : 'http://localhost:2344/',
     key: e.EXTERNAL_LOG_KEY ? e.EXTERNAL_LOG_KEY : 'testkey',
     identity: {
-      anonymised: e.EXTERNAL_LOG_ANONYMISE
-        ? parseBool(e.EXTERNAL_LOG_ANONYMISE)
-        : false,
-      sendOptions: e.EXTERNAL_LOG_OPTIONS
-        ? parseBool(e.EXTERNAL_LOG_OPTIONS)
-        : true,
+      anonymised: e.EXTERNAL_LOG_ANONYMISE ? parseBool(e.EXTERNAL_LOG_ANONYMISE) : false,
+      sendOptions: e.EXTERNAL_LOG_OPTIONS ? parseBool(e.EXTERNAL_LOG_OPTIONS) : true,
       identifier: '',
       version: e.npm_package_version ? e.npm_package_version : '',
       environment: '',
