@@ -65,12 +65,12 @@ api.listen(envConfig.hostPort, () => {
 });
 
 let autoImportTask = cron.schedule(
-  optionsConfig.importOptions.autoImportCron,
+  optionsConfig.prismApi.importOptions.autoImportCron,
   async () => {
     logger.info('Running auto import.');
     const importOutcome = await prismImport();
     logger.info(importOutcome.message);
-    if (optionsConfig.importOptions.indexAfterAutoImport) {
+    if (optionsConfig.prismApi.importOptions.indexAfterAutoImport) {
       const indexOutcome = await prismIndex();
       logger.info(indexOutcome.message);
     }
@@ -82,7 +82,7 @@ let autoImportTask = cron.schedule(
 );
 
 let autoIndexTask = cron.schedule(
-  optionsConfig.importOptions.autoImportCron,
+  optionsConfig.prismApi.indexOptions.autoIndexCron,
   async () => {
     logger.info('Running auto index.');
     const importOutcome = await prismIndex();
@@ -94,12 +94,12 @@ let autoIndexTask = cron.schedule(
   }
 );
 
-if (optionsConfig.importOptions.autoImport) {
+if (optionsConfig.prismApi.importOptions.autoImport) {
   logger.info('Scheduling auto import task.');
   autoImportTask.start();
 }
 
-if (optionsConfig.importOptions.autoImport) {
+if (optionsConfig.prismApi.indexOptions.autoIndex) {
   logger.info('Scheduling auto index task.');
   autoIndexTask.start();
 }

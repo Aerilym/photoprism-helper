@@ -37,17 +37,26 @@ export interface EnvConfig {
 }
 
 export interface OptionsConfig {
-  isDocker: boolean;
   timezone: string;
   logFilePath: string;
-  importOptions: {
-    successTimeout: number;
-    moveOnImport: boolean;
-    autoImport: boolean;
-    autoImportCron: string;
-    indexAfterAutoImport: boolean;
-    autoIndex: boolean;
-    autoIndexCron: string;
+  prismApi: {
+    default: {
+      timeout: number;
+    };
+    importOptions: {
+      timeout: number;
+      move: boolean;
+      autoImport: boolean;
+      autoImportCron: string;
+      indexAfterAutoImport: boolean;
+    };
+    indexOptions: {
+      timeout: number;
+      rescan: boolean;
+      skipArchived: boolean;
+      autoIndex: boolean;
+      autoIndexCron: string;
+    };
   };
 }
 

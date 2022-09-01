@@ -51,13 +51,15 @@ A list of possible environment variables is available: [.env.template](.env.temp
 | PHOTOPRISM_USERNAME                | <code>admin</code>                  | The PhotoPrism username you want the helper to use for access.                                      |
 | PHOTOPRISM_PASSWORD                | <code></code>                       | The PhotoPrism password associated with the username.                                               |
 | APIKEY                             | <code>testkey</code>                | The API key you'll use to query the helper API.                                                     |
-| ISDOCKER                           | <code>false</code>                  | Tells the helper instance if it is running in a Docker container. (To be removed)                   |
 | TIMEZONE                           | <code>Melbourne/Australia</code>    | The timezone of your instance.                                                                      |
 | IMPORT_TIMEOUT                     | <code>300000</code>                 | The number of milliseconds the import function should wait for a success message before timing out. |
 | MOVE_ON_IMPORT                     | <code>false</code>                  | Enable/Disable moving files on import.                                                              |
 | AUTO_IMPORT                        | <code>false</code>                  | Enable/Disable the auto-import feature.                                                             |
 | AUTO_IMPORT_CRON                   | <code>0 0 4 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-import.         |
 | INDEX_AFTER_AUTO_IMPORT            | <code>false</code>                  | Enable/Disable the index after auto-importing feature.                                              |
+| INDEX_TIMEOUT                      | <code>300000</code>                 | The number of milliseconds the index function should wait for a success message before timing out.  |
+| INDEX_RESCAN                       | <code>false</code>                  | Enable/Disable rescanining when indexing (From PhotoPrism settings).                                |
+| INDEX_SKIP_ARCHIVED                | <code>false</code>                  | Enable/Disable skipping archive (From PhotoPrism settings).                                         |
 | AUTO_INDEX                         | <code>false</code>                  | Enable/Disable the auto-index feature.                                                              |
 | AUTO_INDEX_CRON                    | <code>0 0 6 \* \* \* \*</code>      | The [cron expression](https://www.npmjs.com/package/node-cron) for when to run auto-index.          |
 | LOGFILE_PATH                       | <code>logs/local.log</code>         | The logging file path.                                                                              |

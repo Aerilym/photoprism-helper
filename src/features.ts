@@ -15,7 +15,7 @@ export async function prismLogin(): Promise<string> {
         username: envConfig.user,
         password: envConfig.pass,
       },
-      { timeout: 10000 }
+      { timeout: optionsConfig.prismApi.default.timeout }
     )
     .then((outcome: AxiosResponse) => {
       return outcome.data.id;
@@ -79,9 +79,9 @@ export async function prismImport(): Promise<APIOutcome> {
     'import',
     {
       path: '/',
-      move: true,
+      move: optionsConfig.prismApi.importOptions.move,
     },
-    optionsConfig.importOptions.successTimeout
+    optionsConfig.prismApi.importOptions.timeout
   );
 }
 
@@ -91,9 +91,9 @@ export async function prismIndex(): Promise<APIOutcome> {
     {
       convert: true,
       path: '/',
-      rescan: false,
-      skipArchived: false,
+      rescan: optionsConfig.prismApi.indexOptions.rescan,
+      skipArchived: optionsConfig.prismApi.indexOptions.skipArchived,
     },
-    300000
+    optionsConfig.prismApi.indexOptions.timeout
   );
 }
