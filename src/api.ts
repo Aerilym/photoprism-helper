@@ -64,7 +64,7 @@ api.listen(envConfig.hostPort, () => {
   logger.info(`PhotoPrism Helper API listening on port ${envConfig.hostPort}`);
 });
 
-let autoImportTask = cron.schedule(
+const autoImportTask = cron.schedule(
   optionsConfig.prismApi.importOptions.autoImportCron,
   async () => {
     logger.info('Running auto import.');
@@ -81,7 +81,7 @@ let autoImportTask = cron.schedule(
   }
 );
 
-let autoIndexTask = cron.schedule(
+const autoIndexTask = cron.schedule(
   optionsConfig.prismApi.indexOptions.autoIndexCron,
   async () => {
     logger.info('Running auto index.');
