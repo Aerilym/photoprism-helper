@@ -7,11 +7,11 @@
     "format": "prettier --config .prettierrc src/**/*.ts --write",
     "lint": "eslint . --ext .ts",
     "build": "tsc",
+    "build:prep": "npm run format && npm run lint",
     "build:docker": "docker build -t aerilym/photoprism-helper .",
     "start:dev": "nodemon",
     "start:prd": "node build/api.js",
     "reinstall:wa": "npm remove winston-axios && npm install winston-axios",
-    "prepare": "npm run format && npm run lint && npm run build",
     "release:patch": "npm run prepare && npm version patch",
     "release:minor": "npm run prepare && npm version patch",
     "release:major": "npm run prepare && npm version patch"
