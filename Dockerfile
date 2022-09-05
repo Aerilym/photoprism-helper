@@ -22,7 +22,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY package*.json ./
-RUN npm ci --quiet --only=production
+RUN npm ci --quiet --omit=dev
 
 ## We just need the build to execute the command
 COPY --from=builder /usr/src/app/build ./build
