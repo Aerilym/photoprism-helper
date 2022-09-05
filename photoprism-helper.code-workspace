@@ -6,9 +6,6 @@
     {
       "path": "..\\photoprism-helper-log-server"
     },
-    {
-      "path": "..\\winston-axios"
-    }
   ],
   "settings": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
