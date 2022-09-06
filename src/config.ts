@@ -111,7 +111,7 @@ export const configMessages: string[] = [];
 
 // Validate and set the timezone for the application
 if (isTimezone(optionsConfig.timezone, true)) {
-  optionsConfig.timezone
+  optionsConfig.timezone;
 } else {
   configMessages.push('Timezone is not valid: ' + optionsConfig.timezone);
   optionsConfig.timezone = 'Australia/Melbourne';
