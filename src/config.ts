@@ -110,9 +110,7 @@ export const logConfig: LoggerConfig = {
 export const configMessages: string[] = [];
 
 // Validate and set the timezone for the application
-if (isTimezone(optionsConfig.timezone, true)) {
-  optionsConfig.timezone;
-} else {
+if (!isTimezone(optionsConfig.timezone, true)) {
   configMessages.push('Timezone is not valid: ' + optionsConfig.timezone);
   optionsConfig.timezone = 'Australia/Melbourne';
 }
