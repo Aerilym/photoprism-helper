@@ -1,6 +1,6 @@
 {
   "name": "photoprism-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An unofficial companion tool created for use alongside PhotoPrism to enable api endpoints and automation.",
   "main": "build/api.js",
   "scripts": {
