@@ -1,6 +1,6 @@
 {
   "name": "photoprism-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An unofficial companion tool created for use alongside PhotoPrism to enable api endpoints and automation.",
   "main": "build/api.js",
   "scripts": {
@@ -12,9 +12,9 @@
     "start:dev": "nodemon",
     "start:prd": "node build/api.js",
     "reinstall:wa": "npm remove winston-axios && npm install winston-axios",
-    "release:patch": "npm run prepare && npm version patch",
-    "release:minor": "npm run prepare && npm version patch",
-    "release:major": "npm run prepare && npm version patch"
+    "release:patch": "npm run build:prep && npm version patch",
+    "release:minor": "npm run build:prep && npm version patch",
+    "release:major": "npm run build:prep && npm version patch"
   },
   "keywords": [
     "PhotoPrism",
