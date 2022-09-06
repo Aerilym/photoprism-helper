@@ -8,6 +8,7 @@
 
 import dotenv from 'dotenv';
 import cron from 'node-cron';
+import isTimezone from 'is-timezone';
 
 dotenv.config();
 
@@ -106,10 +107,16 @@ export const logConfig: LoggerConfig = {
   },
 };
 
-// Set the timezone for the application
-e.TZ = optionsConfig.timezone;
-
 export const configMessages: string[] = [];
+
+// Validate and set the timezone for the application
+if (isTimezone(optionsConfig.timezone, true)) {
+  optionsConfig.timezone
+} else {
+  configMessages.push('Timezone is not valid: ' + optionsConfig.timezone);
+  optionsConfig.timezone = 'Australia/Melbourne';
+}
+e.TZ = optionsConfig.timezone;
 
 // Validate an API key has been set
 if (envConfig.apiKey === 'testkey') {
